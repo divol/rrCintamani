@@ -23,16 +23,15 @@
  *    UX Design : pliage, Citymedia, Pascal Chirol (ENSADLabs), Douglas Edric Stanley
  */
 
-
 function XHRProxified(url, mime) {
 	if(document.location.port == 8000) {
 		// local python proxy
 		return '/__ajaxproxy/' + url;
 	} else {
-		// hosted internet php proxy 
+		// hosted internet php proxy
 		return '/proxy.php?mimeType=' + mime + '&url=' + escape(url)
 	}
-	}
+}
 
 /**
  * @param panel the target DOM element for feed content
@@ -139,19 +138,18 @@ function setupTouchIteraction(frame) {
 			if(id == firstTouch.identifier) {
 				var touchB = event.changedTouches[0];
 				var duration = event.timeStamp - firstTouch.timestamp;
-				if(duration < 500) {
-					var distance = touchB.pageY - firstTouch.pageY;
-					var velocity = distance / duration;
-					initialTop = $(this).offset().top + Math.abs(velocity) * distance;
-					if(initialTop < 768 - this.clientHeight)
-						initialTop = 768 - this.clientHeight;
-					if(0 < initialTop)
-						initialTop = 0;
-					animDuration = Math.abs(velocity * 500);
-					$(this).animate({
-						top : initialTop + 'px'
-					}, animDuration);
-				}
+
+				var distance = touchB.pageY - firstTouch.pageY;
+				var velocity = distance / duration;
+				initialTop = $(this).offset().top + Math.abs(velocity) * distance;
+				if(initialTop < 768 - this.clientHeight)
+					initialTop = 768 - this.clientHeight;
+				if(0 < initialTop)
+					initialTop = 0;
+				animDuration = Math.abs(velocity * 500);
+				$(this).animate({
+					top : initialTop + 'px'
+				}, animDuration);
 				firstTouch = 0;
 				if(secondTouch) {
 					if(id == secondTouch.identifier) {
@@ -183,12 +181,6 @@ function setupTouchIteraction(frame) {
 
 				firstTouch.pageX = touchB.pageX;
 				//firstTouch.pageY =  touchB.pageY;
-
-				// range checking
-				if(newTop < screen.height - this.clientHeight)
-					newTop = screen.height - this.clientHeight;
-				if(0 < newTop)
-					newTop = 0;
 
 				$(this).css('top', newTop + 'px');
 

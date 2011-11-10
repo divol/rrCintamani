@@ -2,8 +2,8 @@ body {
 	font-family: Verdana,"Ubuntu", sans-serif;
 	background-color: #404040;
 	font-size: 12px;
-	width: 1920px;
-	height: 768px;
+	width: 2000px;
+	height: 100%;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 	overflow: hidden;
@@ -57,13 +57,17 @@ body {
 .feedReader
 {
 	width:100%;
+	display: inline;
+	
 }
+
 .feedPanel {
 	float:left;
 	overflow: hidden;
 	position: relative;
 	width: 256px;
 	height: 100%;
+	display: inline;
 }
 
 .feedContent {
