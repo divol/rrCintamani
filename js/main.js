@@ -108,14 +108,21 @@ function setupTouchIteraction(frame) {
 	var secondTouch = 0;
 
 	var initialTop = 0;
+	var initialLeft = 0;
 	var initialDistance = 0;
 	var initialWidth = 0;
+
+	var leftWidth = 0;
+	var rightWidth = 0;
 
 	frame.addEventListener('touchstart', function(event) {
 		if(0 == firstTouch) {
 			firstTouch = copyTouch(event);
 			initialTop = $(this).offset().top;
+			initialLeft = $('.feedReader').offset().left;
 			initialWidth = $(this).width();
+			leftWidth = $(this).parent().prev().width();
+			rightWidth = $(this).parent().next().width();
 		} else {
 
 			if(0 == secondTouch) {
@@ -150,13 +157,20 @@ function setupTouchIteraction(frame) {
 				$(this).animate({
 					top : initialTop + 'px'
 				}, animDuration);
+				
+				initialLeft = $('.feedReader').offset().left;
+				if(0 < initialLeft) {
+					initialLeft = 0;
+					$('.feedReader').animate({
+						left : initialLeft + 'px'
+					});
+				}
 				firstTouch = 0;
 				if(secondTouch) {
 					if(id == secondTouch.identifier) {
 						secondTouch = 0;
 					}
 				}
-
 			}
 		}
 		if(secondTouch) {
@@ -176,39 +190,27 @@ function setupTouchIteraction(frame) {
 		var deltaDistance = 0;
 		if(firstTouch) {
 			if(id == firstTouch.identifier) {
-				// vertical scrolling handling
-				var newTop = initialTop - (firstTouch.pageY - touchB.pageY)
-
-				firstTouch.pageX = touchB.pageX;
-				//firstTouch.pageY =  touchB.pageY;
-
-				$(this).css('top', newTop + 'px');
-
 				if(secondTouch) {
 					var newWidth = initialWidth + Math.abs(secondTouch.pageX - touchB.pageX) - initialDistance;
-					if(newWidth < 128) {
-						newWidth = 128;
-					}
-					if(640 < newWidth) {
-						newWidth = 640;
-					}
 					$(this).parent().width(newWidth);
+					$(this).parent().prev().width(leftWidth - (Math.abs(secondTouch.pageX - touchB.pageX) - initialDistance) / 2);
+					$(this).parent().next().width(rightWidth - (Math.abs(secondTouch.pageX - touchB.pageX) - initialDistance) / 2);
+				} else {
+					// vertical scrolling handling
+					var newTop = initialTop - (firstTouch.pageY - touchB.pageY)
+					$(this).css('top', newTop + 'px');
+					var newLeft = initialLeft - (firstTouch.pageX - touchB.pageX)
+					$('.feedReader').css('left', newLeft + 'px');
 				}
 			}
 		}
 		if(secondTouch) {
 			if(id == secondTouch.identifier) {
-				secondTouch.pageX = touchB.pageX;
-				secondTouch.pageY = touchB.pageY;
 				if(firstTouch) {
 					var newWidth = initialWidth + Math.abs(firstTouch.pageX - touchB.pageX) - initialDistance;
-					if(newWidth < 128) {
-						newWidth = 128;
-					}
-					if(640 < newWidth) {
-						newWidth = 640;
-					}
 					$(this).parent().width(newWidth);
+					$(this).parent().prev().width(leftWidth - (Math.abs(firstTouch.pageX - touchB.pageX) - initialDistance) / 2);
+					$(this).parent().next().width(rightWidth - (Math.abs(firstTouch.pageX - touchB.pageX) - initialDistance) / 2);
 				}
 			}
 		}

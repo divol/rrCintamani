@@ -2,34 +2,34 @@ body {
 	font-family: Verdana,"Ubuntu", sans-serif;
 	background-color: #404040;
 	font-size: 12px;
-	width: 2000px;
+	width: 100%;
 	height: 100%;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 	overflow: hidden;
 }
-#pan1,#pan5 {
+.pan1 {
 	background-color: #00d9b8;
 }
-#head1,#head5{
+.pan1 .feedHeader{
 	color: #00d9b8;
 }
-#pan2,#pan6 {
+.pan2 {
 	background-color: #008cda;
 }
-#head2,#head6 {
+.pan2 .feedHeader {
 	color: #008cda;
 }
-#pan3,#pan7 {
+.pan3 {
 	background-color: #da8200;
 }
-#head3,#head7 {
+.pan3 .feedHeader  {
 	color: #da8200;
 }
-#pan4,#pan8 {
+.pan4 {
 	background-color: #a800da;
 }
-#head4,#head8 {
+.pan4 .feedHeader {
 	color: #a800da;
 }
 
@@ -46,19 +46,22 @@ body {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	z-index: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
 }
 .entry
 {
 	margin-left: 8px;
 	margin-right: 8px;
 	text-align: justify;
-	
 }
+
 .feedReader
 {
-	width:100%;
-	display: inline;
-	
+	width:2000px;
+	position:absolute;
 }
 
 .feedPanel {
