@@ -1,0 +1,106 @@
+body {
+	font-family: Verdana,"Ubuntu", sans-serif;
+	background-color: #404040;
+	font-size: 12px;
+	width: 1920px;
+	height: 768px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	overflow: hidden;
+}
+#pan1,#pan5 {
+	background-color: #00d9b8;
+}
+#head1,#head5{
+	color: #00d9b8;
+}
+#pan2,#pan6 {
+	background-color: #008cda;
+}
+#head2,#head6 {
+	color: #008cda;
+}
+#pan3,#pan7 {
+	background-color: #da8200;
+}
+#head3,#head7 {
+	color: #da8200;
+}
+#pan4,#pan8 {
+	background-color: #a800da;
+}
+#head4,#head8 {
+	color: #a800da;
+}
+
+.feedHeader
+{
+	
+	background-color: black;
+	font-size:14px;
+	font-weight:bold;
+	position: relative;
+	height: 100%;
+	width: 100%;
+	text-align:center;	
+	padding-top: 10px;
+	padding-bottom: 10px;
+	z-index: 1;
+}
+.entry
+{
+	margin-left: 8px;
+	margin-right: 8px;
+	text-align: justify;
+	
+}
+.feedReader
+{
+	width:100%;
+}
+.feedPanel {
+	float:left;
+	overflow: hidden;
+	position: relative;
+	width: 256px;
+	height: 100%;
+}
+
+.feedContent {
+	position: relative;
+	width: 100%;
+	height: auto;
+	
+}
+
+h1, h2, h3 {
+	font-weight: bold;
+	color: #101010;
+	font-size: 120%;
+	text-align: left;
+}
+h1 {
+	margin-top: 10px;
+}
+object {
+	visibility: hidden;
+}
+embed {
+	visibility: hidden;
+}
+img {
+	position: relative;
+	width: 100%;
+	height: auto;
+}
+a {
+	color: #e0e0e0;
+	text-decoration: none;
+	visibility: hidden;
+}
+.description {
+}
+.date {
+	color: #565248;
+	font-size: 9px;
+}
