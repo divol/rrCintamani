@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <opml version="1.0">
 	<head>
-		<title>
-			DavidONet subscriptions in Google Reader
-		</title>
+		<title>DavidONet subscriptions in Google Reader</title>
 	</head>
 	<body>
-<outline title="Kaina Actualité" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/actualite/feed/"/>
-<outline title="Kaina Littérature" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/litteraire/feed/"/>
-<outline title="Kaina Portraits" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/portraits/feed/"/>
-<outline title="Kaina TV" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/mad-in/feed/"/>
+		<outline title="Midi Libre" type="rss" xmlUrl="http://www.midilibre.fr/herault/montpellier/rss.xml"/>
+		<outline title="Maison de l'architecture" type="rss" xmlUrl="http://www.ma-lereseau.org/rss.xml"/>
+		<outline title="Le Garage Electrique" type="rss" xmlUrl="http://legarageelectrique.net/feed/"/>
+		<outline title="Radio Clapas" type="rss" xmlUrl="http://www.radioclapas.fr/index.php?option=com_ninjarsssyndicator&amp;feed_id=3"/>
+		<outline title="Livre et lecture" type="rss" xmlUrl="http://www.lr2l.fr/actualites.rss"/>
+		<outline title="Culture.fr" type="rss" xmlUrl="http://www.culture.fr/fr/sections/regions/languedoc_roussillon/evenements/rss_events?"/>
+		<outline title="Kaina Actualité" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/actualite/feed/"/>"
+		<outline title="Kaina Littérature" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/litteraire/feed/"/>
+		<outline title="Kaina Portraits" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/portraits/feed/"/>
+		<outline title="Kaina TV" type="rss" xmlUrl="http://www.kaina-tv.org/new-site/category/mad-in/feed/"/>
 	</body>
 </opml>
