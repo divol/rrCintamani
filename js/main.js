@@ -24,12 +24,13 @@
  */
 
 function XHRProxified(url, mime) {
+
 	if(document.location.port == 8000) {
 		// local python proxy
 		return '/__ajaxproxy/' + url;
 	} else {
 		// hosted internet php proxy
-		return '/proxy.php?mimeType=' + mime + '&url=' + escape(url)
+		return 'http://www.bype.org/proxy.php?mimeType=' + mime + '&url=' + escape(url);
 	}
 }
 
@@ -61,8 +62,8 @@ function get_rss_feed(panel, url) {
 				var content = $item.find('[nodeName="content:encoded"]').text();
 				var imgElt = $(content).find('img')[0];
 				// Get the first image in the content
-				//imgElt.setAttribute('src',XHRProxified(imgElt.getAttribute('src'),'image/jpeg'));
 				if(imgElt) {
+					//imgElt.setAttribute('src',XHRProxified(imgElt.getAttribute('src'),'image/jpeg'));
 					imgElt.setAttribute('class', '');
 					img = imgElt.outerHTML;
 					// Doesn't work with firefox :-()
@@ -77,7 +78,9 @@ function get_rss_feed(panel, url) {
 			var html = "<div class=\"entry\"><h2 class=\"postTitle\">" + title + "<\/h2>";
 			html += "<em class=\"date\">" + pubDate + "</em>";
 			html += img;
-			html += "<p class=\"description\">" + description + "</p><hr/>";
+			html += "<p class=\"description\">" + description + "</p>";
+			//html += content;
+			html += "<hr/>";
 
 			//put that feed content on the screen!
 			panel.append($(html));
@@ -145,30 +148,52 @@ function setupTouchIteraction(frame) {
 			if(id == firstTouch.identifier) {
 				var touchB = event.changedTouches[0];
 				var duration = event.timeStamp - firstTouch.timestamp;
-
 				var distance = touchB.pageY - firstTouch.pageY;
 				var velocity = distance / duration;
-				initialTop = $(this).offset().top + Math.abs(velocity) * distance;
-				if(initialTop < 768 - this.clientHeight)
-					initialTop = 768 - this.clientHeight;
-				if(0 < initialTop)
-					initialTop = 0;
-				animDuration = Math.abs(velocity * 500);
-				$(this).animate({
-					top : initialTop + 'px'
-				}, animDuration);
-				
-				initialLeft = $('.feedReader').offset().left;
-				if(0 < initialLeft) {
-					initialLeft = 0;
-					$('.feedReader').animate({
-						left : initialLeft + 'px'
-					});
-				}
-				firstTouch = 0;
-				if(secondTouch) {
-					if(id == secondTouch.identifier) {
-						secondTouch = 0;
+				if(duration < 200) {
+					if($(this).parent().width() < 512) {
+						var leftPos = $('.feedReader').offset().left - $(this).parent().offset().left + 256;
+						$('.feedReader').animate({
+							left : leftPos + 'px'
+						});
+						$(this).parent().animate({
+							width : '960px'
+						});
+						$(this).parent().prev().animate({
+							width : '256px'
+						});
+						$(this).parent().next().animate({
+							width : '256px'
+						});
+					} else {
+						$(this).parent().animate({
+							width : '256px'
+						});
+					}
+					secondTouch = 0;
+					firstTouch = 0;
+				} else {
+					initialTop = $(this).offset().top + Math.abs(velocity) * distance;
+					if(initialTop < 768 - this.clientHeight)
+						initialTop = 768 - this.clientHeight;
+					if(0 < initialTop)
+						initialTop = 0;
+					animDuration = Math.abs(velocity * 500);
+					$(this).animate({
+						top : initialTop + 'px'
+					}, animDuration);
+					initialLeft = $('.feedReader').offset().left;
+					if(0 < initialLeft) {
+						initialLeft = 0;
+						$('.feedReader').animate({
+							left : initialLeft + 'px'
+						});
+					}
+					firstTouch = 0;
+					if(secondTouch) {
+						if(id == secondTouch.identifier) {
+							secondTouch = 0;
+						}
 					}
 				}
 			}
@@ -199,8 +224,10 @@ function setupTouchIteraction(frame) {
 					// vertical scrolling handling
 					var newTop = initialTop - (firstTouch.pageY - touchB.pageY)
 					$(this).css('top', newTop + 'px');
-					var newLeft = initialLeft - (firstTouch.pageX - touchB.pageX)
-					$('.feedReader').css('left', newLeft + 'px');
+					if(32 < Math.abs(firstTouch.pageX - touchB.pageX)) {
+						var newLeft = initialLeft - (firstTouch.pageX - touchB.pageX);
+						$('.feedReader').css('left', newLeft + 'px');
+					}
 				}
 			}
 		}
@@ -229,9 +256,29 @@ function setupHandle(frame) {
 
 
 $(document).ready(function() {
-	$('.feedContent').each(function(index, frame) {
-		get_rss_feed($(this), $(this).attr('name'));
-		// Populate feed content
-		setupTouchIteraction(frame);
+	$('.feedReader').each(function(index, frame) {
+		if($(this).attr('url')) {
+			var count = 0;
+			$.get($(this).attr('url'), function(d) {
+				$(d).find('outline').each(function() {
+					if($(this).attr('type')) {
+						if($(this).attr('type') == 'rss') {
+							count = (count + 1) % 4;
+							var html = '<div class="feedPanel pan' + (count + 1) + '">';
+							html += '<div class="feedHeader">';
+							html += $(this).attr('title') + '</div>';
+							html += '<div class="feedContent" name="' + $(this).attr('xmlUrl') + '"></div>';
+							html += '</div>';
+							$(frame).append($(html));
+						}
+					}
+				});
+				$('.feedContent').each(function(index, frame) {
+					get_rss_feed($(this), $(this).attr('name'));
+					// Populate feed content
+					setupTouchIteraction(frame);
+				});
+			});
+		}
 	});
 });

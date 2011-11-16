@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+	<head>
+		<title>Ville de Montpellier</title>
+	</head>
+	<body>
+		<outline title="Montpellier Centre" type="rss"  xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=1"/>
+		<outline title="Hôpitaux - Facultés" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=2"/>
+		<outline title="Mosson" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=3"/>
+		<outline title="Les Cévennes" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=4"/>
+		<outline title="Croix d'Argent" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=5"/>
+		<outline title="Prés d'Arènes" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=6"/>
+		<outline title="Port Marianne" type="rss" xmlUrl="http://www.montpellier.fr/cms_feedAgenda.php?type=QUARTIER&amp;q=7"/>
+	</body>
+</opml>
