@@ -76,7 +76,7 @@ function get_rss_feed(panel, url) {
 
 			// now create a var 'html' to store the markup we're using to output the feed to the browser window
 			var html = "<div class=\"entry\"><h2 class=\"postTitle\">" + title + "<\/h2>";
-			html += "<em class=\"date\">" + pubDate + "</em>";
+			html += "<em class=\"date\">" + pubDate + "</em><br/>";
 			html += img;
 			html += "<p class=\"description\">" + description + "</p>";
 			//html += content;
@@ -148,54 +148,40 @@ function setupTouchIteraction(frame) {
 			if(id == firstTouch.identifier) {
 				var touchB = event.changedTouches[0];
 				var duration = event.timeStamp - firstTouch.timestamp;
-				var distance = touchB.pageY - firstTouch.pageY;
-				var velocity = distance / duration;
-				if(duration < 200) {
-					if($(this).parent().width() < 512) {
-						var leftPos = $('.feedReader').offset().left - $(this).parent().offset().left + 256;
-						$('.feedReader').animate({
-							left : leftPos + 'px'
-						});
-						$(this).parent().animate({
-							width : '960px'
-						});
-						$(this).parent().prev().animate({
-							width : '256px'
-						});
-						$(this).parent().next().animate({
-							width : '256px'
-						});
-					} else {
-						$(this).parent().animate({
-							width : '256px'
-						});
-					}
-					secondTouch = 0;
-					firstTouch = 0;
-				} else {
-					initialTop = $(this).offset().top + Math.abs(velocity) * distance;
-					if(initialTop < 768 - this.clientHeight)
-						initialTop = 768 - this.clientHeight;
-					if(0 < initialTop)
-						initialTop = 0;
-					animDuration = Math.abs(velocity * 500);
-					$(this).animate({
-						top : initialTop + 'px'
-					}, animDuration);
-					initialLeft = $('.feedReader').offset().left;
-					if(0 < initialLeft) {
-						initialLeft = 0;
-						$('.feedReader').animate({
-							left : initialLeft + 'px'
-						});
-					}
-					firstTouch = 0;
-					if(secondTouch) {
-						if(id == secondTouch.identifier) {
-							secondTouch = 0;
-						}
+				var distanceY = touchB.pageY - firstTouch.pageY;
+				var velocityY = distanceY / duration;
+				var distanceX = touchB.pageX - firstTouch.pageX;
+				var velocityX = distanceX / duration;
+				initialTop = $(this).offset().top + Math.abs(velocityY) * distanceY;
+				if(initialTop < window.innerHeight - this.clientHeight)
+					initialTop = window.innerHeight - this.clientHeight;
+				if(0 < initialTop)
+					initialTop = 0;
+				animDuration = Math.abs(velocityY * 300);
+				$(this).animate({
+					top : initialTop + 'px'
+				}, animDuration);
+				initialLeft = $('.feedReader').offset().left + Math.abs(velocityX) * distanceX;
+				if(0 < initialLeft) {
+					initialLeft = 0;
+				}
+				if(0 < window.innerWidth - ($('.feedContent').last().offset().left + $('.feedContent').last().width())) {
+					var localWidth = 0;
+					$('.feedContent').each(function(index, frame) {
+						localWidth += $(this).width();
+					});
+					initialLeft = window.innerWidth - localWidth;
+				}
+				$('.feedReader').animate({
+					left : initialLeft + 'px'
+				});
+				firstTouch = 0;
+				if(secondTouch) {
+					if(id == secondTouch.identifier) {
+						secondTouch = 0;
 					}
 				}
+
 			}
 		}
 		if(secondTouch) {
@@ -214,6 +200,7 @@ function setupTouchIteraction(frame) {
 		var id = touchB.identifier;
 		var deltaDistance = 0;
 		if(firstTouch) {
+
 			if(id == firstTouch.identifier) {
 				if(secondTouch) {
 					var newWidth = initialWidth + Math.abs(secondTouch.pageX - touchB.pageX) - initialDistance;
@@ -278,6 +265,69 @@ $(document).ready(function() {
 					// Populate feed content
 					setupTouchIteraction(frame);
 				});
+				$('.feedHeader').each(function(index, frame) {
+					frame.addEventListener('touchend', function(event) {
+						if($(this).parent().width() < 512) {
+							var leftPos = $('.feedReader').offset().left - $(this).parent().offset().left + 256;
+							$('.feedReader').animate({
+								left : leftPos + 'px'
+							});
+							$(this).parent().animate({
+								width : '768px'
+							}, function() {
+								var initialLeft = $('.feedReader').offset().left;
+								if(0 < initialLeft) {
+									initialLeft = 0;
+									$('.feedReader').animate({
+										left : initialLeft + 'px'
+									});
+								}
+								if(0 < window.innerWidth - ($('.feedContent').last().offset().left + $('.feedContent').last().width())) {
+									var localWidth = 0;
+									$('.feedContent').each(function(index, frame) {
+										localWidth += $(this).width();
+									});
+									var initialLeft = window.innerWidth - localWidth;
+									$('.feedReader').animate({
+										left : initialLeft + 'px'
+									});
+								}
+								var initialTop = $(this).next().offset().top;
+								console.log(initialTop);
+								if(initialTop < window.innerHeight - $(this).next().clientHeight)
+									initialTop = window.innerHeight - $(this).next().clientHeight;
+								$(this).next().animate({
+									top : initialTop + 'px'
+								});
+
+							});
+							$(this).parent().prev().animate({
+								width : '256px'
+							});
+							$(this).parent().next().animate({
+								width : '256px'
+							});
+						} else {
+							$(this).next().animate({
+								top : '0px'
+							}, 500);
+							$(this).parent().animate({
+								width : '256px'
+							}, function() {
+								if(0 < window.innerWidth - ($('.feedContent').last().offset().left + $('.feedContent').last().width())) {
+									var localWidth = 0;
+									$('.feedContent').each(function(index, frame) {
+										localWidth += $(this).width();
+									});
+									var initialLeft = window.innerWidth - localWidth;
+									$('.feedReader').animate({
+										left : initialLeft + 'px'
+									});
+								}
+							});
+						}
+					});
+				})
 			});
 		}
 	});
