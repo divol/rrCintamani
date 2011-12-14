@@ -265,69 +265,6 @@ $(document).ready(function() {
 					// Populate feed content
 					setupTouchIteraction(frame);
 				});
-				$('.feedHeader').each(function(index, frame) {
-					frame.addEventListener('touchend', function(event) {
-						if($(this).parent().width() < 512) {
-							var leftPos = $('.feedReader').offset().left - $(this).parent().offset().left + 256;
-							$('.feedReader').animate({
-								left : leftPos + 'px'
-							});
-							$(this).parent().animate({
-								width : '768px'
-							}, function() {
-								var initialLeft = $('.feedReader').offset().left;
-								if(0 < initialLeft) {
-									initialLeft = 0;
-									$('.feedReader').animate({
-										left : initialLeft + 'px'
-									});
-								}
-								if(0 < window.innerWidth - ($('.feedContent').last().offset().left + $('.feedContent').last().width())) {
-									var localWidth = 0;
-									$('.feedContent').each(function(index, frame) {
-										localWidth += $(this).width();
-									});
-									var initialLeft = window.innerWidth - localWidth;
-									$('.feedReader').animate({
-										left : initialLeft + 'px'
-									});
-								}
-								var initialTop = $(this).next().offset().top;
-								console.log(initialTop);
-								if(initialTop < window.innerHeight - $(this).next().clientHeight)
-									initialTop = window.innerHeight - $(this).next().clientHeight;
-								$(this).next().animate({
-									top : initialTop + 'px'
-								});
-
-							});
-							$(this).parent().prev().animate({
-								width : '256px'
-							});
-							$(this).parent().next().animate({
-								width : '256px'
-							});
-						} else {
-							$(this).next().animate({
-								top : '0px'
-							}, 500);
-							$(this).parent().animate({
-								width : '256px'
-							}, function() {
-								if(0 < window.innerWidth - ($('.feedContent').last().offset().left + $('.feedContent').last().width())) {
-									var localWidth = 0;
-									$('.feedContent').each(function(index, frame) {
-										localWidth += $(this).width();
-									});
-									var initialLeft = window.innerWidth - localWidth;
-									$('.feedReader').animate({
-										left : initialLeft + 'px'
-									});
-								}
-							});
-						}
-					});
-				})
 			});
 		}
 	});
