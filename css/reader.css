@@ -51,8 +51,8 @@ body {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	top:95%;
-	-webkit-box-shadow:2px 2px 4px #000;
+	top:90%;
+	-webkit-box-shadow:4px 4px 8px #222;
 	
 }
 .entry
@@ -72,20 +72,19 @@ body {
 	float:left;
 	overflow: hidden;
 	position: relative;
-	width: 256px;
+	width: 0px;
 	height: 100%;
 	display: inline;
 	float:left;
-	padding-left:8px;
-	padding-right:8px;
+	padding-left:4px;
+	padding-right:4px;
 }
 
 .feedContent {
 	position: relative;
-	width: 100%;
-	
+	width: 100%;	
 	height: auto;
-	
+	top:-5%;
 }
 
 h1, h2, h3 {
@@ -124,7 +123,7 @@ a {
 	position:absolute;
 	bottom:0px;
 	width:100%;
-	background-color: black;
+	background-color: #101010;
 	z-index: 1;
 	
 }
@@ -140,7 +139,7 @@ a {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color:gray;
+	color:#222222;
 	font-size:14px;
 	font-weight:bold;
 	float:left;
@@ -148,5 +147,5 @@ a {
 
 .shelfReaderAct
 {
-	color:white;
+	color:gray;
 }
