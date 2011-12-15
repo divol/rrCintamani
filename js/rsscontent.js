@@ -34,9 +34,11 @@ function populateFromOpml() {
 			$.get($(this).attr('url'), function(d) {
 				// opml loading
 				var feedList = $(d).find('outline');
-				if(defaultPanelWidth < screen.width / feedList.length)
+				if(defaultPanelWidth < screen.width / feedList.length) {
 					// prevent "black" space because of too few feed to fill width
-					defaultPanelWidth = Math.floor(screen.width / (feedList.length-1));
+					defaultPanelWidth = Math.floor(screen.width / feedList.length);
+					isHorizontalScrollEnable = false;
+				}
 				feedList.each(function() {
 					// for each feed prepare the html skeleton
 					if($(this).attr('type')) {
@@ -57,7 +59,7 @@ function populateFromOpml() {
 					// Iterate on the feeds to fill with items
 					getRssFeed($(this), $(this).attr('name'));
 					// Populate feed content
-					setupTouchIteraction(frame);
+					setupContentTouchIteraction(frame);
 					// setup touch callback
 				});
 			});
@@ -80,6 +82,24 @@ function XHRProxified(url, mime) {
 		// hosted internet php proxy
 		return 'http://www.bype.org/proxy.php?mimeType=' + mime + '&url=' + escape(url);
 	}
+}
+
+function shortenUrl(longUrl, imgElt) {
+	$.getJSON("https://api-ssl.bitly.com/v3/shorten?callback=?", {
+		"format" : "json",
+		"apiKey" : 'R_3a2dd5771d80c3fd9eb4acf2a6cc7190',
+		"login" : 'davidonet',
+		"longUrl" : longUrl
+	}, function(response) {
+		imgElt.setAttribute('src', response.data.url + '.qrcode');
+		$(imgElt).animate({
+			width : "96px",
+			height : "96px"
+		}, 1000).delay(10000).animate({
+			width : "32px",
+			height : "32px"
+		});
+	});
 }
 
 /**
@@ -129,16 +149,20 @@ function getRssFeed(panel, url) {
 			html += "<em class=\"date\">" + pubDate + "</em><br/>";
 			html += img;
 			html += "<p class=\"description\">" + description + "</p>";
-			//html += content;
-			html += "<hr/>";
-
 			//put that feed content on the screen!
 			panel.append($(html));
+			$(document.createElement("img")).attr({
+				src : 'img/qrcode-icon.png',
+				name : $item.find('link').text()
+			}).addClass("qrcode").appendTo(panel).one('touchend', function() {
+				shortenUrl(this.getAttribute('name'), this);
+			});
+			$(document.createElement("hr")).appendTo(panel);
 		});
 		// panel populate and filled make an animation to the default width
 		panel.parent().show();
 		panel.parent().animate({
 			width : defaultPanelWidth + 'px'
-		}, 200);
+		}, 1000);
 	});
 };

@@ -21,42 +21,48 @@
  */
 
 /**
- * touch event copy function to avoid cross reference
- * @param aEvent the event to be copied
- * @return the new event object
- */
-function copyTouch(aEvent) {
-	var retTouch = new Object();
-	retTouch.identifier = aEvent.changedTouches[0].identifier;
-	retTouch.pageX = aEvent.changedTouches[0].pageX;
-	retTouch.pageY = aEvent.changedTouches[0].pageY;
-	retTouch.timestamp = aEvent.timeStamp;
-	return retTouch;
-}
-
-function moveFirstAtLast(frame) {
-	$(frame).children(":last").after(($(frame).children(":first")));
-}
-
-function moveLastAtFirst(frame) {
-	$(frame).children(":first").before(($(frame).children(":last")));
-}
-
-function constrain(x, min, max) {
-	if(x < min)
-		return min;
-	else if(max < x)
-		return max;
-	return x;
-}
-
-var touchNumber = 0;
-
-/**
  * Setup touch event handling for a given DOM Element
  * @param frame the DOM Element reference
  */
-function setupTouchIteraction(frame) {
+var globalTouchCount = 0;
+function setupContentTouchIteraction(frame) {
+	/**
+	 * Simple function to constrain a variable
+	 * @param x the variable
+	 * @param min
+	 * @param max
+	 * @return min < x < max
+	 */
+	function constrain(x, min, max) {
+		if(x < min)
+			return min;
+		else if(max < x)
+			return max;
+		return x;
+	}
+
+	/**
+	 * touch event copy function to avoid cross reference
+	 * @param aEvent the event to be copied
+	 * @return the new event object
+	 */
+	function copyTouch(aEvent) {
+		var retTouch = new Object();
+		retTouch.identifier = aEvent.changedTouches[0].identifier;
+		retTouch.pageX = aEvent.changedTouches[0].pageX;
+		retTouch.pageY = aEvent.changedTouches[0].pageY;
+		retTouch.timestamp = aEvent.timeStamp;
+		return retTouch;
+	}
+
+	function moveFirstAtLast(frame) {
+		$(frame).children(":last").after(($(frame).children(":first")));
+	}
+
+	function moveLastAtFirst(frame) {
+		$(frame).children(":first").before(($(frame).children(":last")));
+	}
+
 	var firstTouch = 0;
 
 	var initialTop = 0;
@@ -64,9 +70,9 @@ function setupTouchIteraction(frame) {
 	var initialDistance = 0;
 
 	frame.addEventListener('touchstart', function(event) {
-		touchNumber++;
+		globalTouchCount++;
 		firstTouch = copyTouch(event);
-		initialTop = $(this).offset().top;
+		initialTop = $(this).offset().top-40;
 		initialLeft = $('.feedReader').offset().left;
 		event.preventDefault();
 		event.stopPropagation();
@@ -74,7 +80,7 @@ function setupTouchIteraction(frame) {
 	});
 
 	frame.addEventListener('touchend', function(event) {
-		touchNumber--;
+		globalTouchCount--;
 		var id = event.changedTouches[0].identifier;
 		if(firstTouch) {
 			if(id == firstTouch.identifier) {
@@ -112,24 +118,24 @@ function setupTouchIteraction(frame) {
 			if(id == firstTouch.identifier) {
 
 				// vertical scrolling handling
-				var newTop = initialTop - (firstTouch.pageY - touchB.pageY)
+				var newTop = initialTop - Math.floor(firstTouch.pageY - touchB.pageY)
 				$(this).css('top', newTop + 'px');
 
 				// horizontal scrolling handling with one touch only
-				if(touchNumber == 1) {
+				if((isHorizontalScrollEnable)) {
 					if(32 < Math.abs(firstTouch.pageX - touchB.pageX)) {
-
 						if(0 < firstTouch.pageX - touchB.pageX) {
-							// Move to the left
+							// Slide to the left
 							if($('.feedReader').children(":first").offset().left < -defaultPanelWidth) {
 								moveFirstAtLast($('.feedReader'));
+								// feed reader left pos correction
 								initialLeft += defaultPanelWidth;
 							}
-
 						} else {
-							// Move to the right
+							// Slide to the right
 							if(screen.width < $('.feedReader').children(":last").offset().left) {
 								moveLastAtFirst($('.feedReader'));
+								// feed reader left pos correction
 								initialLeft -= defaultPanelWidth;
 							}
 
@@ -144,12 +150,5 @@ function setupTouchIteraction(frame) {
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
-	});
-}
-
-function setupHandle(frame) {
-	frame.addEventListener('touchmove', function(event) {
-		var touch = event.targetTouches[0];
-		$('#cont1').css('width', touch.pageX - 16 + 'px');
 	});
 }

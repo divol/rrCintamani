@@ -1,17 +1,17 @@
 body {
-	font-family: Verdana,"Ubuntu", sans-serif;
+	font-family: Verdana, "Ubuntu", sans-serif;
 	background-color: #404040;
 	font-size: 12px;
 	width: 100%;
 	height: 100%;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
-	overflow:hidden;
+	overflow: hidden;
 }
 .pan1 {
 	background-color: #00d9b8;
 }
-.pan1 .feedHeader{
+.pan1 .feedHeader {
 	color: #00d9b8;
 }
 .pan2 {
@@ -23,7 +23,7 @@ body {
 .pan3 {
 	background-color: #da8200;
 }
-.pan3 .feedHeader  {
+.pan3 .feedHeader {
 	color: #da8200;
 }
 .pan4 {
@@ -32,61 +32,51 @@ body {
 .pan4 .feedHeader {
 	color: #a800da;
 }
+.feedHeader {
 
-.feedHeader
-{
-	
 	background-color: #101010;
-	font-size:10px;
-	font-weight:normal;
+	font-size: 10px;
+	font-weight: normal;
 	position: relative;
-	margin-right:auto;
-	margin-left:auto;
+	margin-right: auto;
+	margin-left: auto;
 	height: 100%;
 	width: 80%;
-	text-align:center;	
+	text-align: center;
 	padding: 8px 8px 8px 8px;
-	border:1px solid #101010;
+	border: 1px solid #101010;
 	z-index: 1;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	top:90%;
-	-webkit-box-shadow:4px 4px 8px #222;
-	
+	top: 90%;
+	-webkit-box-shadow: 4px 4px 8px #222;
 }
-.entry
-{
+.entry {
 	margin-left: 8px;
 	margin-right: 8px;
 	text-align: justify;
 }
-
-.feedReader
-{
-	width:8000px;
-	position:absolute;
+.feedReader {
+	width: 8000px;
+	position: absolute;
 }
-
 .feedPanel {
-	float:left;
+	float: left;
 	overflow: hidden;
 	position: relative;
 	width: 0px;
 	height: 100%;
 	display: inline;
-	float:left;
-	padding-left:4px;
-	padding-right:4px;
+	float: left;
+	padding-left: 4px;
+	padding-right: 4px;
 }
-
 .feedContent {
 	position: relative;
-	width: 100%;	
+	width: 100%;
 	height: auto;
-	top:-5%;
 }
-
 h1, h2, h3 {
 	font-weight: bold;
 	color: #101010;
@@ -106,6 +96,13 @@ img {
 	position: relative;
 	width: 100%;
 	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.qrcode {
+	width: 32px;
+	height: 32px;
 }
 a {
 	color: #e0e0e0;
@@ -118,34 +115,28 @@ a {
 	color: #565248;
 	font-size: 9px;
 }
-
-.footerReader{
-	position:absolute;
-	bottom:0px;
-	width:100%;
+.footerReader {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
 	background-color: #101010;
 	z-index: 1;
-	
 }
-
-.shelfReader
-{
+.shelfReader {
 	height: 100%;
 	width: 256px;
-	text-align:center;	
+	text-align: center;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	z-index: 2;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color:#222222;
-	font-size:14px;
-	font-weight:bold;
-	float:left;
+	color: #222222;
+	font-size: 14px;
+	font-weight: bold;
+	float: left;
 }
-
-.shelfReaderAct
-{
-	color:gray;
+.shelfReaderAct {
+	color: gray;
 }

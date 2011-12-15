@@ -24,6 +24,7 @@
  */
 
 var defaultPanelWidth = 256;
+var isHorizontalScrollEnable = true;
 
 $(document).ready(function() {
 	$.getScript("js/touchinteraction.js", function() {
