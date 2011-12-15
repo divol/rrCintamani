@@ -64,7 +64,6 @@ function populateFromOpml() {
 				});
 			});
 		}
-		$(this)
 	});
 }
 
@@ -83,7 +82,11 @@ function XHRProxified(url, mime) {
 		return 'http://www.bype.org/proxy.php?mimeType=' + mime + '&url=' + escape(url);
 	}
 }
-
+/**
+ * URL shortening and QRCode generation with bit.ly service
+ * @param longUrl url to shorten
+ * @param target img element to manipulate 
+ */
 function shortenUrl(longUrl, imgElt) {
 	$.getJSON("https://api-ssl.bitly.com/v3/shorten?callback=?", {
 		"format" : "json",
@@ -95,9 +98,13 @@ function shortenUrl(longUrl, imgElt) {
 		$(imgElt).animate({
 			width : "96px",
 			height : "96px"
-		}, 1000).delay(10000).animate({
-			width : "32px",
-			height : "32px"
+		}, 1000).one('touchend', function() {
+			$(this).animate({
+				width : "32px",
+				height : "32px"
+			}, 1000).one('touchend', function() {
+				shortenUrl(this.getAttribute('name'), this);
+			});
 		});
 	});
 }
